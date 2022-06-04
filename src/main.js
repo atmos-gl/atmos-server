@@ -4,6 +4,7 @@ const NodeCache = require('node-cache')
 const cors = require('cors')
 const bodyParser = require('express')
 const {createUser, getUser} = require('./shareManager')
+const screenshot = require('./screenshot')
 const path = require('path')
 const app = express()
 const port = 1556
@@ -16,8 +17,14 @@ app.use(express.static('public'))
 app.set('views', path.resolve('./views'));
 app.set('view engine', 'ejs');
 
-let browser
+let browser, takeScreenshot
 const cache = new NodeCache()
+
+const cacheScreenShot = async (id) => {
+    const data = await takeScreenshot(id)
+    cache.set(id, data)
+    return data
+}
 
 app.post('/new', (req, res) => {
     const {username, sceneData} = req.body
@@ -26,6 +33,7 @@ app.post('/new', (req, res) => {
         return
     }
     const newUser = createUser(username, sceneData)
+    cacheScreenShot(newUser.id)
     res.end(newUser.id)
 })
 
@@ -33,7 +41,8 @@ app.get('/:id', (req, res) => {
     const {id} = req.params
     const user = getUser(id)
     if (!user) {
-        res.status(404).end('User not founs')
+        res.status(404).end('User not found')
+        return
     }
     return res.render('index', user)
 })
@@ -42,33 +51,22 @@ app.get('/:id/scene', (req, res) => {
     const user = getUser(id)
     if (!user) {
         res.status(404).end('share not found')
+        return
     }
     return res.render('scene', user)
 })
-
 app.get('/:id/image.png', async (req, res) => {
     const {id} = req.params
-    const page = await browser.newPage()
-    page.setViewport({
-        width: 1920,
-        height: 1080
-    })
-    // page
-    //     .on('console', message =>
-    //         console.log(`${message.type().substr(0, 3).toUpperCase()} ${message.text()}`))
-
-    await page.exposeFunction('onSceneRender', async () => {
-        const data = await page.screenshot({encoding: 'base64', type: 'png'})
-
-        res.contentType('image/png');
-        res.end(data, 'base64');
-        await page.close()
-    });
-
-    await page.goto(`http://localhost:${port}/${id}/scene`)
+    let data = cache.get(id)
+    if (!data) {
+        data = await cacheScreenShot(id)
+    }
+    res.contentType('image/png');
+    res.end(data, 'base64');
 })
 const init = async () => {
     browser = await puppeteer.launch()
+    takeScreenshot = screenshot(browser, port)
     console.log('launched puppeteer')
 
     app.listen(port, () => {
