@@ -12,9 +12,17 @@
     <meta name="twitter:creator" content="@AtmosSerre">
     <meta name="twitter:title" content="Panier de tomates de <%= username %>">
     <meta name="twitter:description"
-          content="Découvrez la serre Atmos en récoltant des tomates parfaites !">
+          content="Vous aussi, découvrez la serre Atmos en récoltant des tomates parfaites !">
     <meta name="twitter:image"
           content="https://share.atmos-serre.com/<%= id %>/image.png">
+
+    <!--OpenGraph card-->
+    <meta property="og:title"              content="Panier de tomates de <%= username %>" />
+    <meta property="og:description"        content="Vous aussi, découvrez la serre Atmos en récoltant des tomates parfaites !" />
+    <meta property="og:image"              content="https://share.atmos-serre.com/<%= id %>/image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1920" />
+    <meta property="og:image:height" content="1080" />
 
     <title>Panier de tomates de <%= username %></title>
 </head>
