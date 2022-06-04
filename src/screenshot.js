@@ -2,8 +2,8 @@ module.exports = (browser, port) => (id) => {
     return new Promise(async (resolve) => {
     const page = await browser.newPage()
     page.setViewport({
-        width: 1920,
-        height: 1080
+        width: 1200,
+        height: 630
     })
     // page
     //     .on('console', message =>
