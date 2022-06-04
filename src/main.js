@@ -64,6 +64,10 @@ app.get('/:id/image.png', async (req, res) => {
     res.contentType('image/png');
     res.end(data, 'base64');
 })
+app.get('/:id/download', async (req, res) => {
+    const {id} = req.params
+    res.download(`https://share.atmos-serre.com/${id}/image.png`)
+})
 const init = async () => {
     browser = await puppeteer.launch()
     takeScreenshot = screenshot(browser, port)
