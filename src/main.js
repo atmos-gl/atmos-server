@@ -25,6 +25,13 @@ const cacheScreenShot = async (id) => {
     cache.set(id, data)
     return data
 }
+const getImage = async id => {
+    let data = cache.get(id)
+    if (!data) {
+        data = await cacheScreenShot(id)
+    }
+    return data
+}
 
 app.post('/new', (req, res) => {
     const {username, sceneData} = req.body
@@ -57,16 +64,25 @@ app.get('/:id/scene', (req, res) => {
 })
 app.get('/:id/image.png', async (req, res) => {
     const {id} = req.params
-    let data = cache.get(id)
-    if (!data) {
-        data = await cacheScreenShot(id)
-    }
+    const data = await getImage(id)
     res.contentType('image/png');
     res.end(data, 'base64');
 })
 app.get('/:id/download', async (req, res) => {
     const {id} = req.params
-    res.download(`https://share.atmos-serre.com/${id}/image.png`)
+    const user = getUser(id)
+    if (!user) {
+        res.status(404).end('share not found')
+        return
+    }
+    const data = await getImage(id)
+    res.writeHead(200, {
+        'Content-Disposition': `attachment; filename="Panier de ${user.username}.png"`,
+        'Content-Type' : 'image/png'
+    })
+
+    const download = Buffer.from(data, 'base64')
+    res.end(download)
 })
 const init = async () => {
     browser = await puppeteer.launch()
