@@ -42,6 +42,7 @@ app.post('/new', (req, res) => {
     const newUser = createUser(sceneData)
     cacheScreenShot(newUser.id, 'scene')
     cacheScreenShot(newUser.id, 'mobile-scene')
+    cacheScreenShot(newUser.id, 'top-scene')
     res.end(newUser.id)
 })
 
@@ -72,6 +73,15 @@ app.get('/:id/mobile-scene', (req, res) => {
     }
     return res.render('mobileScene', user)
 })
+app.get('/:id/top-shot', (req, res) => {
+    const {id} = req.params
+    const user = getUser(id)
+    if (!user) {
+        res.status(404).end('share not found')
+        return
+    }
+    return res.render('topScene', user)
+})
 app.get('/:id/image.png', async (req, res) => {
     const {id} = req.params
     const data = await getImage(id, 'scene')
@@ -81,6 +91,12 @@ app.get('/:id/image.png', async (req, res) => {
 app.get('/:id/mobile-image.png', async (req, res) => {
     const {id} = req.params
     const data = await getImage(id, 'mobile-scene')
+    res.contentType('image/png');
+    res.end(data, 'base64');
+})
+app.get('/:id/top-shot.png', async (req, res) => {
+    const {id} = req.params
+    const data = await getImage(id, 'top-shot')
     res.contentType('image/png');
     res.end(data, 'base64');
 })

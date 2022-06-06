@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Atmos backend</title>
+    <style>
+        @font-face {
+            font-family: 'cera';
+            src: url('/assets/fonts/cera-pro-400.eot');
+            src: url('/assets/fonts/cera-pro-400.eot') format('embedded-opentype'),
+            url('/assets/fonts/cera-pro-400.woff2') format('woff2'),
+            url('/assets/fonts/cera-pro-400.woff') format('woff'),
+            url('/assets/fonts/cera-pro-400.ttf') format('truetype');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'cera';
+            src: url('/assets/fonts/cera-pro-500.eot');
+            src: url('/assets/fonts/cera-pro-500.eot') format('embedded-opentype'),
+            url('/assets/fonts/cera-pro-500.woff2') format('woff2'),
+            url('/assets/fonts/cera-pro-500.woff') format('woff'),
+            url('/assets/fonts/cera-pro-500.ttf') format('truetype');
+            font-weight: 500;
+        }
+        @font-face {
+            font-family: 'cera';
+            src: url('/assets/fonts/cera-pro-700.eot');
+            src: url('/assets/fonts/cera-pro-700.eot') format('embedded-opentype'),
+            url('/assets/fonts/cera-pro-700.woff2') format('woff2'),
+            url('/assets/fonts/cera-pro-700.woff') format('woff'),
+            url('/assets/fonts/cera-pro-700.ttf') format('truetype');
+            font-weight: 700;
+        }
+        body {
+            margin: 0;
+            color: #fff;
+            font-size: 13px;
+            line-height: 24px;
+            overscroll-behavior: none;
+            font-family: 'cera';
+        }
+        .logo {
+            position: absolute;
+            top: 24px;
+            left: 36px;
+            width: 200px;
+        }
+        .logo img {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<script type="application/javascript">
+    window.sceneData = JSON.parse(`<%- JSON.stringify(sceneData) %>`)
+</script>
+<script type="importmap">
+			{
+				"imports": {
+					"three": "/js/three.js"
+				}
+			}
+		</script>
+
+<script type="module">
+import createScene from '/js/createScene.js'
+import { Vector3 } from 'three'
+createScene(new Vector3(0, 4, 0))
+</script>
+
+</body>
+</html>
