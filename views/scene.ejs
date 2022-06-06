@@ -52,20 +52,12 @@
         .logo img {
             width: 100%;
         }
-        .username {
-            position: absolute;
-            bottom: 24px;
-            right: 36px;
-            font-size: 1.3em;
-            font-weight: 500;
-        }
     </style>
 </head>
 <body>
 <div class="logo">
     <img src="/assets/logo.png">
 </div>
-<div class="username">@<%= username %></div>
 <script type="application/javascript">
     window.sceneData = JSON.parse(`<%- JSON.stringify(sceneData) %>`)
 </script>

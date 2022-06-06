@@ -34,12 +34,12 @@ const getImage = async id => {
 }
 
 app.post('/new', (req, res) => {
-    const {username, sceneData} = req.body
-    if (!username || !sceneData) {
-        res.status(400).end('Missing username')
+    const {sceneData} = req.body
+    if (!sceneData) {
+        res.status(400).end('Missing data')
         return
     }
-    const newUser = createUser(username, sceneData)
+    const newUser = createUser(sceneData)
     cacheScreenShot(newUser.id)
     res.end(newUser.id)
 })
@@ -77,7 +77,7 @@ app.get('/:id/download', async (req, res) => {
     }
     const data = await getImage(id)
     res.writeHead(200, {
-        'Content-Disposition': `attachment; filename="Panier de ${user.username}.png"`,
+        'Content-Disposition': `attachment; filename="Panier de tomates.png"`,
         'Content-Type' : 'image/png'
     })
 

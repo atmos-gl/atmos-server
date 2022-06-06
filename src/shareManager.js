@@ -4,11 +4,10 @@ const { v4: uuidv4 } = require('uuid');
 
 const db = new JsonDB(new Config('shares'))
 
-module.exports.createUser = (username, sceneData) => {
+module.exports.createUser = (sceneData) => {
     const id = uuidv4()
     const newUser = {
         id,
-        username,
         sceneData
     }
     db.push(`/users/${id}`, newUser)
