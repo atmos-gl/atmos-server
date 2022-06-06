@@ -16,7 +16,6 @@
             url('/assets/fonts/cera-pro-400.ttf') format('truetype');
             font-weight: 400;
         }
-
         @font-face {
             font-family: 'cera';
             src: url('/assets/fonts/cera-pro-500.eot');
@@ -26,7 +25,6 @@
             url('/assets/fonts/cera-pro-500.ttf') format('truetype');
             font-weight: 500;
         }
-
         @font-face {
             font-family: 'cera';
             src: url('/assets/fonts/cera-pro-700.eot');
@@ -36,7 +34,6 @@
             url('/assets/fonts/cera-pro-700.ttf') format('truetype');
             font-weight: 700;
         }
-
         body {
             margin: 0;
             background: linear-gradient(to bottom, #074D2F, #001606);
@@ -46,14 +43,12 @@
             overscroll-behavior: none;
             font-family: 'cera';
         }
-
         .logo {
             position: absolute;
             top: 24px;
             left: 36px;
             width: 200px;
         }
-
         .logo img {
             width: 100%;
         }
@@ -72,12 +67,12 @@
 					"three": "/js/three.js"
 				}
 			}
+		</script>
 
-</script>
 <script type="module">
-    import createScene from '/js/createScene.js'
-
-    createScene()
+import createScene from '/js/createScene.js'
+import { Vector3 } from 'three'
+createScene(new Vector3(0, 10, 0))
 </script>
 
 </body>

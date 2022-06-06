@@ -20,15 +20,15 @@ app.set('view engine', 'ejs');
 let browser, takeScreenshot
 const cache = new NodeCache()
 
-const cacheScreenShot = async (id) => {
-    const data = await takeScreenshot(id)
+const cacheScreenShot = async (id, scene) => {
+    const data = await takeScreenshot(id, scene)
     cache.set(id, data)
     return data
 }
-const getImage = async id => {
-    let data = cache.get(id)
+const getImage = async (id, scene = 'scene') => {
+    let data = cache.get(id + '-' + scene)
     if (!data) {
-        data = await cacheScreenShot(id)
+        data = await cacheScreenShot(id, scene)
     }
     return data
 }
@@ -40,7 +40,8 @@ app.post('/new', (req, res) => {
         return
     }
     const newUser = createUser(sceneData)
-    cacheScreenShot(newUser.id)
+    cacheScreenShot(newUser.id, 'scene')
+    cacheScreenShot(newUser.id, 'mobile-scene')
     res.end(newUser.id)
 })
 
@@ -62,9 +63,24 @@ app.get('/:id/scene', (req, res) => {
     }
     return res.render('scene', user)
 })
+app.get('/:id/mobile-scene', (req, res) => {
+    const {id} = req.params
+    const user = getUser(id)
+    if (!user) {
+        res.status(404).end('share not found')
+        return
+    }
+    return res.render('mobileScene', user)
+})
 app.get('/:id/image.png', async (req, res) => {
     const {id} = req.params
-    const data = await getImage(id)
+    const data = await getImage(id, 'scene')
+    res.contentType('image/png');
+    res.end(data, 'base64');
+})
+app.get('/:id/mobile-image.png', async (req, res) => {
+    const {id} = req.params
+    const data = await getImage(id, 'mobile-scene')
     res.contentType('image/png');
     res.end(data, 'base64');
 })
