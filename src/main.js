@@ -22,7 +22,7 @@ const cache = new NodeCache()
 
 const cacheScreenShot = async (id, scene) => {
     const data = await takeScreenshot(id, scene)
-    cache.set(id, data)
+    cache.set(id + '-' + scene, data)
     return data
 }
 const getImage = async (id, scene = 'scene') => {
