@@ -82,16 +82,16 @@ app.get('/:id/top-shot', (req, res) => {
     }
     return res.render('topScene', user)
 })
-app.get('/:id/image.webp', async (req, res) => {
+app.get('/:id/image.png', async (req, res) => {
     const {id} = req.params
     const data = await getImage(id, 'scene')
-    res.contentType('image/webp');
+    res.contentType('image/png');
     res.end(data, 'base64');
 })
-app.get('/:id/mobile-image.webp', async (req, res) => {
+app.get('/:id/mobile-image.png', async (req, res) => {
     const {id} = req.params
     const data = await getImage(id, 'mobile-scene')
-    res.contentType('image/webp');
+    res.contentType('image/png');
     res.end(data, 'base64');
 })
 app.get('/:id/top-shot.webp', async (req, res) => {
@@ -109,8 +109,8 @@ app.get('/:id/download', async (req, res) => {
     }
     const data = await getImage(id)
     res.writeHead(200, {
-        'Content-Disposition': `attachment; filename="Panier de tomates.webp"`,
-        'Content-Type' : 'image/webp'
+        'Content-Disposition': `attachment; filename="Panier de tomates.png"`,
+        'Content-Type' : 'image/png'
     })
 
     const download = Buffer.from(data, 'base64')

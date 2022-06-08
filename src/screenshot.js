@@ -12,6 +12,11 @@ const matchDimensions = {
         height: 720
     }
 }
+const matchFormat = {
+    scene: 'png',
+    'mobile-scene': 'png',
+    'top-shot': 'webp'
+}
 module.exports = (browser, port) => (id, scene ='scene') => {
     return new Promise(async (resolve) => {
     const page = await browser.newPage()
@@ -26,7 +31,7 @@ module.exports = (browser, port) => (id, scene ='scene') => {
     await page.exposeFunction('onSceneRender', async () => {
         const data = await page.screenshot({
             encoding: 'base64',
-            type: 'webp',
+            type: matchFormat[scene],
             omitBackground: true
         })
         resolve(data)
