@@ -26,7 +26,7 @@ module.exports = (browser, port) => (id, scene ='scene') => {
     await page.exposeFunction('onSceneRender', async () => {
         const data = await page.screenshot({
             encoding: 'base64',
-            type: 'png',
+            type: 'webp',
             omitBackground: true
         })
         resolve(data)
