@@ -33,17 +33,17 @@ const getImage = async (id, scene = 'scene') => {
     return data
 }
 
-app.post('/new', (req, res) => {
+app.post('/new', async(req, res) => {
     const {sceneData} = req.body
     if (!sceneData) {
         res.status(400).end('Missing data')
         return
     }
     const newUser = createUser(sceneData)
-    cacheScreenShot(newUser.id, 'scene')
-    cacheScreenShot(newUser.id, 'mobile-scene')
-    cacheScreenShot(newUser.id, 'top-shot')
     res.end(newUser.id)
+    await cacheScreenShot(newUser.id, 'top-shot')
+    cacheScreenShot(newUser.id, 'mobile-scene')
+    cacheScreenShot(newUser.id, 'scene')
 })
 
 app.get('/:id', (req, res) => {
