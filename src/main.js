@@ -42,7 +42,7 @@ app.post('/new', (req, res) => {
     const newUser = createUser(sceneData)
     cacheScreenShot(newUser.id, 'scene')
     cacheScreenShot(newUser.id, 'mobile-scene')
-    cacheScreenShot(newUser.id, 'top-scene')
+    cacheScreenShot(newUser.id, 'top-shot')
     res.end(newUser.id)
 })
 
